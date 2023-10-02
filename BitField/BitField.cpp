@@ -2,7 +2,7 @@
 
 size_t TBitField::GetMemIndex(size_t pos) const noexcept
 {
-	return memLen - pos / bitsInElem;
+	return memLen - pos / bitsInElem - 1;
 }
 elem_type TBitField::GetMemMask(size_t pos) const noexcept
 {
@@ -11,11 +11,11 @@ elem_type TBitField::GetMemMask(size_t pos) const noexcept
 TBitField::TBitField(size_t _BitLen)
 {
 	bitLen = _BitLen;
-	bitsInElem = sizeof(elem_type);
+	bitsInElem = sizeof(elem_type) * 8;
 	memLen = bitLen / bitsInElem;
 	memLen += (bitLen % bitsInElem != 0);
 	pMem = new elem_type[memLen];
-	for (int i = 0; i < memLen; i++) { pMem[i] = NULL; }
+	for (int i = 0; i < memLen; i++) { pMem[i] = 0; }
 	shiftSize = 0;
 }
 TBitField::TBitField(const TBitField& bf)
@@ -23,6 +23,7 @@ TBitField::TBitField(const TBitField& bf)
 	bitLen = bf.bitLen;
 	bitsInElem = bf.bitsInElem;
 	memLen = bf.memLen;
+	pMem = new elem_type[memLen];
 	for (int i = 0; i < memLen; i++) { pMem[i] = bf.pMem[i]; }
 	shiftSize = bf.shiftSize;
 }
@@ -46,7 +47,7 @@ TBitField::~TBitField()
 }
 TBitField& TBitField::operator=(const TBitField& bf)
 {
-	if (this != &bf) { return *this; }
+	if (this == &bf) { return *this; }
 	bitLen = bf.bitLen;
 	bitsInElem = bf.bitsInElem;
 	memLen = bf.memLen;
