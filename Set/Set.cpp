@@ -1,69 +1,64 @@
-/*#include "set.h"
+#include "set.h"
 
-TSet::TSet(int mp)
-{
-}
-
-TSet::TSet(const TSet& s)
-{
-}
-
-TSet::operator TBitField()
-{
-}
-
-size_t TSet::GetMaxPower() const noexcept
-{
-	return size_t();
-}
-
-void TSet::InsElem(size_t Elem)
-{
-}
-
-void TSet::DelElem(size_t Elem)
-{
-}
-
-bool TSet::IsMember(size_t Elem) const
-{
-	return false;
-}
-
+TSet::TSet(int mp) : bitField(mp), maxPower(mp) {}
+TSet::TSet(const TSet& s) : bitField(s.bitField), maxPower(s.maxPower) {}
+TSet::operator TBitField() { return bitField; }
+size_t TSet::GetMaxPower() const noexcept { return maxPower; }
+void TSet::InsElem(size_t Elem) { bitField.set(Elem); }
+void TSet::DelElem(size_t Elem) { bitField.reset(Elem); }
+bool TSet::IsMember(size_t Elem) const { return bitField.test(Elem); }
 TSet TSet::operator+(const int Elem)
 {
-	return TSet();
+	if ((Elem > maxPower - 1) || (Elem < 0)) {
+		throw std::logic_error("out of universe");
+	}
+	else {
+		TSet tmp(*this);
+		tmp.bitField.set(Elem);
+		return tmp;
+	}
 }
-
 TSet TSet::operator-(const int Elem)
 {
-	return TSet();
+	if ((Elem > maxPower - 1) || (Elem < 0)) {
+		throw std::logic_error("out of universe");
+	}
+	else {
+		TSet tmp(*this);
+		tmp.bitField.reset(Elem);
+		return tmp;
+	}
 }
-
 TSet TSet::operator+(const TSet& s)
 {
-	return TSet();
+	if (maxPower != s.maxPower) {
+		throw std::logic_error("deference universe");
+	}
+	else {
+		TSet tmp(*this);
+		tmp.bitField = bitField | s.bitField;
+		return tmp;
+	}
 }
-
 TSet TSet::operator*(const TSet& s)
 {
-	return TSet();
+	if (maxPower != s.maxPower) {
+		throw std::logic_error("deference universe");
+	}
+	else {
+		TSet tmp(*this);
+		tmp.bitField = bitField & s.bitField;
+		return tmp;
+	}
 }
-
 TSet TSet::operator~()
 {
-	return TSet();
+	TSet tmp(*this);
+	tmp.bitField = ~bitField;
+	return tmp;
 }
-
-int TSet::operator==(const TSet& s) const
-{
-	return 0;
-}
-
-int TSet::operator!=(const TSet& s) const
-{
-	return 0;
-}
+bool TSet::operator==(const TSet& s) const { return s.bitField == bitField; }
+bool TSet::operator!=(const TSet& s) const { return s.bitField != bitField; }
 
 TSet& TSet::operator=(const TSet& s)
 {
@@ -79,4 +74,3 @@ std::ostream& operator<<(std::ostream& out, const TSet& bf)
 {
 	// TODO: вставьте здесь оператор return
 }
-*/

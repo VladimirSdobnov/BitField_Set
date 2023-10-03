@@ -122,3 +122,24 @@ TEST(TBitField, equal) {
 	bf2.set(5);
 	EXPECT_EQ(bf1, bf2);
 }
+TEST(TBitField, double_set) {
+	// Arrange & Act
+	TBitField bf1(10);
+	TBitField bf2(10);
+	// Assert
+	bf1.set(1);
+	bf1.set(1);
+	bf1.set(1);
+	bf2.set(1);
+	EXPECT_EQ(bf1, bf2);
+}
+TEST(TBitField, reset_0) {
+	// Arrange & Act
+	TBitField bf1(10);
+	TBitField bf2(10);
+	// Assert
+	bf1.reset(1);
+	bf1.reset(1);
+	bf1.reset(1);
+	EXPECT_EQ(bf1, bf2);
+}

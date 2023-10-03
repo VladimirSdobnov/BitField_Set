@@ -1,4 +1,4 @@
-/*#ifndef INCLUDE_SET_H_
+#ifndef INCLUDE_SET_H_
 #define INCLUDE_SET_H_
 
 #include <iostream>
@@ -25,8 +25,8 @@ public:
   TSet operator* (const TSet &s);        // пересечение
   TSet operator~ ();                     // дополнение
 
-  int operator== (const TSet &s) const;
-  int operator!= (const TSet &s) const;
+  bool operator== (const TSet &s) const;
+  bool operator!= (const TSet &s) const;
   TSet& operator=(const TSet &s);
 
   friend std::istream& operator>>(std::istream& in, TSet &bf);
@@ -34,4 +34,3 @@ public:
 };
 
 #endif  // INCLUDE_SET_H_
-*/
