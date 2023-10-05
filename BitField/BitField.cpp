@@ -51,6 +51,7 @@ TBitField& TBitField::operator=(const TBitField& bf)
 	bitLen = bf.bitLen;
 	bitsInElem = bf.bitsInElem;
 	memLen = bf.memLen;
+	pMem = new elem_type[memLen];
 	for (int i = 0; i < memLen; i++) { pMem[i] = bf.pMem[i]; }
 	shiftSize = bf.shiftSize;
 	return *this;
@@ -109,25 +110,25 @@ void TBitField::reset(size_t i)
 }
 TBitField TBitField::operator|(const TBitField& bf)
 {
-	if (bitLen == bf.bitLen) {
-		TBitField tmp(*this);
-		for (int i = 0; i < memLen; i++) {
-			tmp.pMem[i] = pMem[i] | bf.pMem[i];
-		}
-		return tmp;
+	TBitField tmp(0);
+	if (bf.memLen >= memLen) { tmp = bf; }
+	else { tmp = *this; }
+
+	for (int i = 1; i <= std::min(memLen, bf.memLen); i++) {
+		tmp.pMem[tmp.memLen - i] = pMem[memLen - i] | bf.pMem[bf.memLen - i];
 	}
-	else{ throw std::logic_error("deference universe"); }
+	return tmp;
 }
 TBitField TBitField::operator&(const TBitField& bf)
 {
-	if (bitLen == bf.bitLen) {
-		TBitField tmp(*this);
-		for (int i = 0; i < memLen; i++) {
-			tmp.pMem[i] = pMem[i] & bf.pMem[i];
-		}
-		return tmp;
+	TBitField tmp(0);
+	if (bf.memLen <= memLen) { tmp = bf; }
+	else { tmp = *this; }
+
+	for (int i = 1; i <= std::min(memLen, bf.memLen); i++) {
+		tmp.pMem[tmp.memLen - i] = pMem[memLen - i] & bf.pMem[bf.memLen - i];
 	}
-	else { throw std::logic_error("deference universe"); }
+	return tmp;
 }
 TBitField TBitField::operator~(void)
 {
@@ -140,6 +141,15 @@ TBitField TBitField::operator~(void)
 size_t TBitField::size() const noexcept
 {
 	return bitLen;
+}
+std::string TBitField::to_string()
+{
+	std::string tmp;
+	for (int i = 0; i < bitLen; i++) {
+		if (test(i) == 1) { tmp = tmp + "1"; }
+		else { tmp = tmp + "0"; }
+	}
+	return tmp;
 }
 void swap(TBitField& lhs, TBitField& rhs) noexcept
 {

@@ -60,7 +60,7 @@ TSet TSet::operator~()
 bool TSet::operator==(const TSet& s) const { return s.bitField == bitField; }
 bool TSet::operator!=(const TSet& s) const { return s.bitField != bitField; }
 
-TSet& TSet::operator=(const TSet& s)
+/*TSet& TSet::operator=(const TSet& s)
 {
 	// TODO: вставьте здесь оператор return
 }
@@ -73,4 +73,4 @@ std::istream& operator>>(std::istream& in, TSet& bf)
 std::ostream& operator<<(std::ostream& out, const TSet& bf)
 {
 	// TODO: вставьте здесь оператор return
-}
+}*/
