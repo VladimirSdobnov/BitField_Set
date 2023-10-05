@@ -1,8 +1,8 @@
-//#include "..\qtest\gtest.h"
-//#include <climits>
-//#include "..\Set\set.h"
+#include "..\qtest\gtest.h"
+#include <climits>
+#include "..\Set\set.h"
 
-/*TEST(TSet, can_combine_two_sets_of_equal_size)
+TEST(TSet, can_combine_two_sets_of_equal_size)
 {
   const int size = 5;
   TSet set1(size), set2(size), set3(size), expSet(size);
@@ -38,4 +38,3 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
-*/
