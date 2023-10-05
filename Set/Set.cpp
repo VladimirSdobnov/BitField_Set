@@ -7,16 +7,20 @@ size_t TSet::GetMaxPower() const noexcept { return maxPower; }
 void TSet::InsElem(size_t Elem) { bitField.set(Elem); }
 void TSet::DelElem(size_t Elem) { bitField.reset(Elem); }
 bool TSet::IsMember(size_t Elem) const { return bitField.test(Elem); }
-TSet TSet::operator+(const int Elem)
+void TSet::insert(size_t Elem)
 {
 	if ((Elem > maxPower - 1) || (Elem < 0)) {
 		throw std::logic_error("out of universe");
 	}
 	else {
-		TSet tmp(*this);
-		tmp.bitField.set(Elem);
-		return tmp;
+		bitField.set(Elem);
 	}
+}
+TSet TSet::operator+(const int Elem)
+{
+	TSet tmp(*this);
+	tmp.insert(Elem);
+	return tmp;
 }
 TSet TSet::operator-(const int Elem)
 {

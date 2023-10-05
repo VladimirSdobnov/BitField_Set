@@ -19,6 +19,7 @@ public:
   void DelElem(size_t Elem);            // удалить элемент из множества
   bool IsMember(size_t Elem) const;     // проверить наличие элемента в множестве
 
+  void insert(size_t Elem);
   TSet operator+ (const int Elem);       // объединение с элементом
   TSet operator- (const int Elem);       // разность с элементом
   TSet operator+ (const TSet &s);        // объединение
