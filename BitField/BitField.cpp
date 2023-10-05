@@ -122,7 +122,7 @@ TBitField TBitField::operator|(const TBitField& bf)
 TBitField TBitField::operator&(const TBitField& bf)
 {
 	TBitField tmp(0);
-	if (bf.memLen >= memLen) { tmp = bf; }
+	if (bf.memLen <= memLen) { tmp = bf; }
 	else { tmp = *this; }
 
 	for (int i = 1; i <= std::min(memLen, bf.memLen); i++) {
@@ -146,7 +146,8 @@ std::string TBitField::to_string()
 {
 	std::string tmp;
 	for (int i = 0; i < bitLen; i++) {
-		tmp += test(i);
+		if (test(i) == 1) { tmp = tmp + "1"; }
+		else { tmp = tmp + "0"; }
 	}
 	return tmp;
 }
