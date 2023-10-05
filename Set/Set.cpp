@@ -31,25 +31,15 @@ TSet TSet::operator-(const int Elem)
 }
 TSet TSet::operator+(const TSet& s)
 {
-	if (maxPower != s.maxPower) {
-		throw std::logic_error("deference universe");
-	}
-	else {
-		TSet tmp(*this);
-		tmp.bitField = bitField | s.bitField;
-		return tmp;
-	}
+	TSet tmp(*this);
+	tmp.bitField = bitField | s.bitField;
+	return tmp;
 }
 TSet TSet::operator*(const TSet& s)
 {
-	if (maxPower != s.maxPower) {
-		throw std::logic_error("deference universe");
-	}
-	else {
-		TSet tmp(*this);
-		tmp.bitField = bitField & s.bitField;
-		return tmp;
-	}
+	TSet tmp(*this);
+	tmp.bitField = bitField & s.bitField;
+	return tmp;
 }
 TSet TSet::operator~()
 {
@@ -60,9 +50,12 @@ TSet TSet::operator~()
 bool TSet::operator==(const TSet& s) const { return s.bitField == bitField; }
 bool TSet::operator!=(const TSet& s) const { return s.bitField != bitField; }
 
-/*TSet& TSet::operator=(const TSet& s)
+TSet& TSet::operator=(const TSet& s)
 {
-	// TODO: вставьте здесь оператор return
+	if (this == &s) { return *this; }
+	bitField = s.bitField;
+	maxPower = s.maxPower;
+	return *this;
 }
 
 std::istream& operator>>(std::istream& in, TSet& bf)
@@ -73,4 +66,4 @@ std::istream& operator>>(std::istream& in, TSet& bf)
 std::ostream& operator<<(std::ostream& out, const TSet& bf)
 {
 	// TODO: вставьте здесь оператор return
-}*/
+}
