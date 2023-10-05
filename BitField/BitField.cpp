@@ -121,14 +121,14 @@ TBitField TBitField::operator|(const TBitField& bf)
 }
 TBitField TBitField::operator&(const TBitField& bf)
 {
-	if (bitLen == bf.bitLen) {
-		TBitField tmp(*this);
-		for (int i = 0; i < memLen; i++) {
-			tmp.pMem[i] = pMem[i] & bf.pMem[i];
-		}
-		return tmp;
+	TBitField tmp(0);
+	if (bf.memLen >= memLen) { tmp = bf; }
+	else { tmp = *this; }
+
+	for (int i = 1; i <= std::min(memLen, bf.memLen); i++) {
+		tmp.pMem[tmp.memLen - i] = pMem[memLen - i] & bf.pMem[bf.memLen - i];
 	}
-	else { throw std::logic_error("deference universe"); }
+	return tmp;
 }
 TBitField TBitField::operator~(void)
 {
