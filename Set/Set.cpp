@@ -49,7 +49,6 @@ TSet TSet::operator~()
 }
 bool TSet::operator==(const TSet& s) const { return s.bitField == bitField; }
 bool TSet::operator!=(const TSet& s) const { return s.bitField != bitField; }
-
 TSet& TSet::operator=(const TSet& s)
 {
 	if (this == &s) { return *this; }
@@ -57,13 +56,18 @@ TSet& TSet::operator=(const TSet& s)
 	maxPower = s.maxPower;
 	return *this;
 }
-
 std::istream& operator>>(std::istream& in, TSet& bf)
 {
-	// TODO: вставьте здесь оператор return
+	int elem;
+	in >> elem;
+	bf = bf + elem;
 }
-
 std::ostream& operator<<(std::ostream& out, const TSet& bf)
 {
-	// TODO: вставьте здесь оператор return
+	for (int i = 0; i < bf.maxPower; i++) {
+		if (bf.bitField.test(i) == 1) {
+			out << i << " ";
+		}
+	}
+	return out;
 }
