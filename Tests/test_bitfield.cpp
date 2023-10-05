@@ -55,13 +55,14 @@ TEST(TBitField, or_for_bf_throw) {
 }
 TEST(TBitField, or_for_bf_no_throw) {
 	// Arrange & Act
-	TBitField bf1(10);
+	TBitField bf1(36);
 	TBitField bf2(10);
-	TBitField bf3(10);
+	TBitField bf3(0);
 	// Assert
 	bf1.set(1);
 	bf1.set(3);
-	bf1.set(5);
+	bf1.set(35);
+	bf1.set(22);
 	bf2.set(2);
 	bf2.set(4);
 	bf2.set(6);
