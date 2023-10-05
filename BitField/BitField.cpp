@@ -142,6 +142,14 @@ size_t TBitField::size() const noexcept
 {
 	return bitLen;
 }
+std::string TBitField::to_string()
+{
+	std::string tmp;
+	for (int i = 0; i < bitLen; i++) {
+		tmp += test(i);
+	}
+	return tmp;
+}
 void swap(TBitField& lhs, TBitField& rhs) noexcept
 {
 	std::swap(lhs, rhs);

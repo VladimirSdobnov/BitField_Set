@@ -50,6 +50,7 @@ public:
 
   // ввод/вывод
   friend std::ostream &operator<<(std::ostream &ostr, const TBitField &bf);
+  std::string to_string();
 };
 
 #endif  // INCLUDE_BITFIELD_H_
