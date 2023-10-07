@@ -7,31 +7,17 @@ size_t TSet::GetMaxPower() const noexcept { return maxPower; }
 void TSet::InsElem(size_t Elem) { bitField.set(Elem); }
 void TSet::DelElem(size_t Elem) { bitField.reset(Elem); }
 bool TSet::IsMember(size_t Elem) const { return bitField.test(Elem); }
-void TSet::insert(size_t Elem)
-{
-	if ((Elem > maxPower - 1) || (Elem < 0)) {
-		throw std::logic_error("out of universe");
-	}
-	else {
-		bitField.set(Elem);
-	}
-}
 TSet TSet::operator+(const int Elem)
 {
 	TSet tmp(*this);
-	tmp.insert(Elem);
+	tmp.InsElem(Elem);
 	return tmp;
 }
 TSet TSet::operator-(const int Elem)
 {
-	if ((Elem > maxPower - 1) || (Elem < 0)) {
-		throw std::logic_error("out of universe");
-	}
-	else {
-		TSet tmp(*this);
-		tmp.bitField.reset(Elem);
-		return tmp;
-	}
+	TSet tmp(*this);
+	tmp.DelElem(Elem);
+	return tmp;
 }
 TSet TSet::operator+(const TSet& s)
 {
@@ -65,6 +51,7 @@ std::istream& operator>>(std::istream& in, TSet& bf)
 	int elem;
 	in >> elem;
 	bf = bf + elem;
+	return in;
 }
 std::ostream& operator<<(std::ostream& out, const TSet& bf)
 {
