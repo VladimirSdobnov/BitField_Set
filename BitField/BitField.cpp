@@ -78,8 +78,8 @@ bool TBitField::operator==(const TBitField& bf) const noexcept
 		(shiftSize != bf.shiftSize) /*|| (bitsInElem != bf.bitsInElem)*/) {
 		return false;
 	}
-	for (int i = 0; i < memLen; i++) {
-		if (pMem[i] != bf.pMem[i]) { return false; }
+	for (int i = 0; i < bitLen; i++) {
+		if (test(i) != bf.test(i)) { return false; }
 	}
 	return true;
 }
