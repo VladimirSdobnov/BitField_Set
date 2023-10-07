@@ -65,6 +65,7 @@ std::istream& operator>>(std::istream& in, TSet& bf)
 	int elem;
 	in >> elem;
 	bf = bf + elem;
+	return in;
 }
 std::ostream& operator<<(std::ostream& out, const TSet& bf)
 {
