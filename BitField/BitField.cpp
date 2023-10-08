@@ -10,13 +10,17 @@ elem_type TBitField::GetMemMask(size_t pos) const noexcept
 }
 TBitField::TBitField(size_t _BitLen)
 {
-	bitLen = _BitLen;
-	bitsInElem = sizeof(elem_type) * 8;
-	memLen = bitLen / bitsInElem;
-	memLen += (bitLen % bitsInElem != 0);
-	pMem = new elem_type[memLen];
-	for (int i = 0; i < memLen; i++) { pMem[i] = 0; }
-	shiftSize = 0;
+	if (bitLen < 0) { throw std::logic_error("Negative size"); }
+	else {
+		bitLen = _BitLen;
+		bitsInElem = sizeof(elem_type) * 8;
+		memLen = bitLen / bitsInElem;
+		memLen += (bitLen % bitsInElem != 0);
+		pMem = new elem_type[memLen];
+		for (int i = 0; i < memLen; i++) { pMem[i] = 0; }
+		shiftSize = 0;
+	}
+	
 }
 TBitField::TBitField(const TBitField& bf)
 {
