@@ -1,5 +1,6 @@
 #pragma once
 #include "../Set/set.h"
+#include <array>
 
 namespace ApplicationSet {
 
@@ -23,6 +24,8 @@ namespace ApplicationSet {
 			//TODO: добавьте код конструктора
 			//
 		}
+	private: 
+		TSet *A = nullptr, *B = nullptr;
 
 	protected:
 		/// <summary>
@@ -30,6 +33,14 @@ namespace ApplicationSet {
 		/// </summary>
 		~MyForm()
 		{
+			if (A != nullptr) {
+				delete A;
+				A = nullptr;
+			}
+			if (B != nullptr) {
+				delete B;
+				B = nullptr;
+			}
 			if (components)
 			{
 				delete components;
@@ -79,13 +90,20 @@ namespace ApplicationSet {
 	private: System::Windows::Forms::ListBox^ SetBList;
 	private: System::Windows::Forms::Panel^ panel6;
 	private: System::Windows::Forms::Panel^ panel7;
-	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::Button^ button2;
-	private: System::Windows::Forms::Button^ button3;
-	private: System::Windows::Forms::Button^ button4;
-	private: System::Windows::Forms::Button^ button5;
-	private: System::Windows::Forms::RichTextBox^ richTextBox1;
+	private: System::Windows::Forms::Button^ UnionSetButton;
+
+	private: System::Windows::Forms::Button^ DiferenceSetButton;
+	private: System::Windows::Forms::Button^ IntersectSetButton;
+
+
+
+	private: System::Windows::Forms::Button^ NotSetAButton;
+	private: System::Windows::Forms::Button^ NotSetBButton;
+
+
+
 	private: System::Windows::Forms::ListBox^ listBox1;
+	private: System::Windows::Forms::Button^ DemonstrateButton;
 
 
 
@@ -129,12 +147,12 @@ namespace ApplicationSet {
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->panel6 = (gcnew System::Windows::Forms::Panel());
 			this->panel7 = (gcnew System::Windows::Forms::Panel());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->DemonstrateButton = (gcnew System::Windows::Forms::Button());
+			this->UnionSetButton = (gcnew System::Windows::Forms::Button());
+			this->DiferenceSetButton = (gcnew System::Windows::Forms::Button());
+			this->IntersectSetButton = (gcnew System::Windows::Forms::Button());
+			this->NotSetAButton = (gcnew System::Windows::Forms::Button());
+			this->NotSetBButton = (gcnew System::Windows::Forms::Button());
 			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 			this->panel4 = (gcnew System::Windows::Forms::Panel());
 			this->panel5 = (gcnew System::Windows::Forms::Panel());
@@ -210,6 +228,7 @@ namespace ApplicationSet {
 			this->CleanAButton->TabIndex = 7;
 			this->CleanAButton->Text = L"Clean";
 			this->CleanAButton->UseVisualStyleBackColor = true;
+			this->CleanAButton->Click += gcnew System::EventHandler(this, &MyForm::CleanAButton_Click);
 			// 
 			// AddSetAButton
 			// 
@@ -219,6 +238,7 @@ namespace ApplicationSet {
 			this->AddSetAButton->TabIndex = 5;
 			this->AddSetAButton->Text = L"AddSet";
 			this->AddSetAButton->UseVisualStyleBackColor = true;
+			this->AddSetAButton->Click += gcnew System::EventHandler(this, &MyForm::AddSetAButton_Click);
 			// 
 			// DelElementsAButton
 			// 
@@ -228,6 +248,7 @@ namespace ApplicationSet {
 			this->DelElementsAButton->TabIndex = 6;
 			this->DelElementsAButton->Text = L"DelButton";
 			this->DelElementsAButton->UseVisualStyleBackColor = true;
+			this->DelElementsAButton->Click += gcnew System::EventHandler(this, &MyForm::DelElementsAButton_Click);
 			// 
 			// SetAText
 			// 
@@ -272,7 +293,6 @@ namespace ApplicationSet {
 			this->panel6->AutoSize = true;
 			this->panel6->BackColor = System::Drawing::SystemColors::ActiveBorder;
 			this->panel6->Controls->Add(this->panel7);
-			this->panel6->Controls->Add(this->richTextBox1);
 			this->panel6->Controls->Add(this->listBox1);
 			this->panel6->Location = System::Drawing::Point(547, 2);
 			this->panel6->MaximumSize = System::Drawing::Size(1000, 1000);
@@ -285,71 +305,71 @@ namespace ApplicationSet {
 			this->panel7->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->panel7->Controls->Add(this->button1);
-			this->panel7->Controls->Add(this->button2);
-			this->panel7->Controls->Add(this->button3);
-			this->panel7->Controls->Add(this->button4);
-			this->panel7->Controls->Add(this->button5);
-			this->panel7->Location = System::Drawing::Point(4, 182);
+			this->panel7->Controls->Add(this->DemonstrateButton);
+			this->panel7->Controls->Add(this->UnionSetButton);
+			this->panel7->Controls->Add(this->DiferenceSetButton);
+			this->panel7->Controls->Add(this->IntersectSetButton);
+			this->panel7->Controls->Add(this->NotSetAButton);
+			this->panel7->Controls->Add(this->NotSetBButton);
+			this->panel7->Location = System::Drawing::Point(4, 351);
 			this->panel7->Name = L"panel7";
 			this->panel7->Size = System::Drawing::Size(248, 93);
 			this->panel7->TabIndex = 9;
 			// 
-			// button1
+			// DemonstrateButton
 			// 
-			this->button1->Location = System::Drawing::Point(0, 3);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(114, 23);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"LoadFile";
-			this->button1->UseVisualStyleBackColor = true;
+			this->DemonstrateButton->Location = System::Drawing::Point(121, 61);
+			this->DemonstrateButton->Name = L"DemonstrateButton";
+			this->DemonstrateButton->Size = System::Drawing::Size(124, 23);
+			this->DemonstrateButton->TabIndex = 8;
+			this->DemonstrateButton->Text = L"Demonstrate";
+			this->DemonstrateButton->UseVisualStyleBackColor = true;
 			// 
-			// button2
+			// UnionSetButton
 			// 
-			this->button2->Location = System::Drawing::Point(120, 3);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(125, 23);
-			this->button2->TabIndex = 4;
-			this->button2->Text = L"SaveFile";
-			this->button2->UseVisualStyleBackColor = true;
+			this->UnionSetButton->Location = System::Drawing::Point(0, 3);
+			this->UnionSetButton->Name = L"UnionSetButton";
+			this->UnionSetButton->Size = System::Drawing::Size(114, 23);
+			this->UnionSetButton->TabIndex = 0;
+			this->UnionSetButton->Text = L"A+B";
+			this->UnionSetButton->UseVisualStyleBackColor = true;
 			// 
-			// button3
+			// DiferenceSetButton
 			// 
-			this->button3->Location = System::Drawing::Point(56, 61);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(121, 23);
-			this->button3->TabIndex = 7;
-			this->button3->Text = L"Clean";
-			this->button3->UseVisualStyleBackColor = true;
+			this->DiferenceSetButton->Location = System::Drawing::Point(120, 4);
+			this->DiferenceSetButton->Name = L"DiferenceSetButton";
+			this->DiferenceSetButton->Size = System::Drawing::Size(125, 23);
+			this->DiferenceSetButton->TabIndex = 4;
+			this->DiferenceSetButton->Text = L"A-B";
+			this->DiferenceSetButton->UseVisualStyleBackColor = true;
 			// 
-			// button4
+			// IntersectSetButton
 			// 
-			this->button4->Location = System::Drawing::Point(0, 32);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(114, 23);
-			this->button4->TabIndex = 5;
-			this->button4->Text = L"AddSet";
-			this->button4->UseVisualStyleBackColor = true;
+			this->IntersectSetButton->Location = System::Drawing::Point(3, 61);
+			this->IntersectSetButton->Name = L"IntersectSetButton";
+			this->IntersectSetButton->RightToLeft = System::Windows::Forms::RightToLeft::No;
+			this->IntersectSetButton->Size = System::Drawing::Size(111, 23);
+			this->IntersectSetButton->TabIndex = 7;
+			this->IntersectSetButton->Text = L"A*B";
+			this->IntersectSetButton->UseVisualStyleBackColor = true;
 			// 
-			// button5
+			// NotSetAButton
 			// 
-			this->button5->Location = System::Drawing::Point(120, 32);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(125, 23);
-			this->button5->TabIndex = 6;
-			this->button5->Text = L"DelButton";
-			this->button5->UseVisualStyleBackColor = true;
+			this->NotSetAButton->Location = System::Drawing::Point(0, 32);
+			this->NotSetAButton->Name = L"NotSetAButton";
+			this->NotSetAButton->Size = System::Drawing::Size(114, 23);
+			this->NotSetAButton->TabIndex = 5;
+			this->NotSetAButton->Text = L"~A";
+			this->NotSetAButton->UseVisualStyleBackColor = true;
 			// 
-			// richTextBox1
+			// NotSetBButton
 			// 
-			this->richTextBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->richTextBox1->Location = System::Drawing::Point(4, 279);
-			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->Size = System::Drawing::Size(245, 236);
-			this->richTextBox1->TabIndex = 8;
-			this->richTextBox1->Text = L"";
+			this->NotSetBButton->Location = System::Drawing::Point(120, 32);
+			this->NotSetBButton->Name = L"NotSetBButton";
+			this->NotSetBButton->Size = System::Drawing::Size(125, 23);
+			this->NotSetBButton->TabIndex = 6;
+			this->NotSetBButton->Text = L"~B";
+			this->NotSetBButton->UseVisualStyleBackColor = true;
 			// 
 			// listBox1
 			// 
@@ -359,7 +379,7 @@ namespace ApplicationSet {
 			this->listBox1->FormattingEnabled = true;
 			this->listBox1->Location = System::Drawing::Point(7, 6);
 			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(245, 173);
+			this->listBox1->Size = System::Drawing::Size(245, 342);
 			this->listBox1->TabIndex = 3;
 			// 
 			// panel4
@@ -427,6 +447,7 @@ namespace ApplicationSet {
 			this->AddSetBButton->TabIndex = 5;
 			this->AddSetBButton->Text = L"AddSet";
 			this->AddSetBButton->UseVisualStyleBackColor = true;
+			this->AddSetBButton->Click += gcnew System::EventHandler(this, &MyForm::AddSetBButton_Click);
 			// 
 			// DelElementsBButton
 			// 
@@ -436,6 +457,7 @@ namespace ApplicationSet {
 			this->DelElementsBButton->TabIndex = 6;
 			this->DelElementsBButton->Text = L"DelButton";
 			this->DelElementsBButton->UseVisualStyleBackColor = true;
+			this->DelElementsBButton->Click += gcnew System::EventHandler(this, &MyForm::DelElementsBButton_Click);
 			// 
 			// SetBText
 			// 
@@ -481,6 +503,93 @@ namespace ApplicationSet {
 
 		}
 #pragma endregion
+private: void SynchSetAList() {
+	SetAList->Items->Clear();
+	for (int i = 0; i < A->GetMaxPower(); i++) {
+		if (A->IsMember(i) == 1) {
+			SetAList->Items->Add(i.ToString() + " ");
+		}
+	}
+}
+private: void SynchSetBList() {
+	SetBList->Items->Clear();
+	for (int i = 0; i < B->GetMaxPower(); i++) {
+		if (B->IsMember(i) == 1) {
+			SetBList->Items->Add(i.ToString() + " ");
+		}
+	}
+}
+private: System::Void AddSetAButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (A == nullptr) { A = new TSet(0); }
+	array<String^> ^text = SetAText->Text->Split(' ');
+	TSet set(0);
+	for each (String ^ temp in text)
+	{
+		int x = int::Parse(temp);
+		if (x + 1 > set.GetMaxPower()) {
+			TSet* tmp = new TSet(x + 1);
+			set = set + *tmp;
+		}
+		set = set + x;
+	}
+	*A = *A + set;
+	SynchSetAList();
+	delete text;
+}
+private: System::Void AddSetBButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (B == nullptr) { B = new TSet(0); }
+	array<String^>^ text = SetBText->Text->Split(' ');
+	TSet set(0);
+	for each (String ^ temp in text)
+	{
+		int x = int::Parse(temp);
+		if (x + 1 > set.GetMaxPower()) {
+			TSet* tmp = new TSet(x + 1);
+			set = set + *tmp;
+		}
+		set = set + x;
+	}
+	*B = *B + set;
+	SynchSetBList();
+	delete text;
+}
+private: System::Void DelElementsAButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (A == nullptr) { return; }
+	array<String^>^ text = SetAText->Text->Split(' ');
+	TSet set(A->GetMaxPower());
+	for each (String ^ temp in text)
+	{
+		int x = int::Parse(temp);
+		if (x < set.GetMaxPower()) {
+			set.InsElem(x);
+		}
+	}
+	*A = *A * ~set;
+	SynchSetAList();
+	delete text;
+}
+private: System::Void DelElementsBButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (B == nullptr) { return; }
+	array<String^>^ text = SetBText->Text->Split(' ');
+	TSet set(B->GetMaxPower());
+	for each (String ^ temp in text)
+	{
+		int x = int::Parse(temp);
+		if (x < set.GetMaxPower()) {
+			set.InsElem(x);
+		}
+	}
+	*B = *B * ~set;
+	SynchSetBList();
+	delete text;
+}
+private: System::Void CleanAButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (A != nullptr) {
+		delete A;
+		A = nullptr;
+		SynchSetAList();
+	}
+}
 };
 }
 //System::Drawing::Size box_size_list(((panel2->Size.Width - 10)), ((panel2->Size.Height / 3)));

@@ -115,7 +115,7 @@ void TBitField::reset(size_t i)
 TBitField TBitField::operator|(const TBitField& bf)
 {
 	TBitField tmp(0);
-	if (bf.memLen >= memLen) { tmp = bf; }
+	if (bf.bitLen > bitLen) { tmp = bf; }
 	else { tmp = *this; }
 
 	for (int i = 1; i <= std::min(memLen, bf.memLen); i++) {
