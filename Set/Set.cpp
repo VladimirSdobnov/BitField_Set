@@ -22,6 +22,8 @@ TSet TSet::operator-(const int Elem)
 TSet TSet::operator+(const TSet& s)
 {
 	TSet tmp(*this);
+	if (s.maxPower > maxPower) { tmp.maxPower = s.maxPower; }
+	else { tmp.maxPower = maxPower; }
 	tmp.bitField = bitField | s.bitField;
 	return tmp;
 }
@@ -29,6 +31,7 @@ TSet TSet::operator*(const TSet& s)
 {
 	TSet tmp(*this);
 	tmp.bitField = bitField & s.bitField;
+	tmp.maxPower = tmp.bitField.size();
 	return tmp;
 }
 TSet TSet::operator~()
