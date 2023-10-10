@@ -137,8 +137,9 @@ TBitField TBitField::operator&(const TBitField& bf)
 TBitField TBitField::operator~(void)
 {
 	TBitField tmp(*this);
-	for (int i = 0; i < memLen; i++) {
-		tmp.pMem[i] = ~pMem[i];
+	for (int i = 0; i < bitLen; i++) {
+		if (tmp.test(i)) { tmp.reset(i); }
+		else { tmp.set(i); }
 	}
 	return tmp;
 }
