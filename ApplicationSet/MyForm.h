@@ -99,10 +99,11 @@ namespace ApplicationSet {
 
 	private: System::Windows::Forms::Button^ NotSetAButton;
 	private: System::Windows::Forms::Button^ NotSetBButton;
+	private: System::Windows::Forms::ListBox^ ResList;
 
 
 
-	private: System::Windows::Forms::ListBox^ listBox1;
+
 	private: System::Windows::Forms::Button^ DemonstrateButton;
 
 
@@ -153,7 +154,7 @@ namespace ApplicationSet {
 			this->IntersectSetButton = (gcnew System::Windows::Forms::Button());
 			this->NotSetAButton = (gcnew System::Windows::Forms::Button());
 			this->NotSetBButton = (gcnew System::Windows::Forms::Button());
-			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+			this->ResList = (gcnew System::Windows::Forms::ListBox());
 			this->panel4 = (gcnew System::Windows::Forms::Panel());
 			this->panel5 = (gcnew System::Windows::Forms::Panel());
 			this->LoadfiormFileBButton = (gcnew System::Windows::Forms::Button());
@@ -293,7 +294,7 @@ namespace ApplicationSet {
 			this->panel6->AutoSize = true;
 			this->panel6->BackColor = System::Drawing::SystemColors::ActiveBorder;
 			this->panel6->Controls->Add(this->panel7);
-			this->panel6->Controls->Add(this->listBox1);
+			this->panel6->Controls->Add(this->ResList);
 			this->panel6->Location = System::Drawing::Point(547, 2);
 			this->panel6->MaximumSize = System::Drawing::Size(1000, 1000);
 			this->panel6->Name = L"panel6";
@@ -333,6 +334,7 @@ namespace ApplicationSet {
 			this->UnionSetButton->TabIndex = 0;
 			this->UnionSetButton->Text = L"A+B";
 			this->UnionSetButton->UseVisualStyleBackColor = true;
+			this->UnionSetButton->Click += gcnew System::EventHandler(this, &MyForm::UnionSetButton_Click);
 			// 
 			// DiferenceSetButton
 			// 
@@ -361,6 +363,7 @@ namespace ApplicationSet {
 			this->NotSetAButton->TabIndex = 5;
 			this->NotSetAButton->Text = L"~A";
 			this->NotSetAButton->UseVisualStyleBackColor = true;
+			this->NotSetAButton->Click += gcnew System::EventHandler(this, &MyForm::NotSetAButton_Click);
 			// 
 			// NotSetBButton
 			// 
@@ -371,16 +374,16 @@ namespace ApplicationSet {
 			this->NotSetBButton->Text = L"~B";
 			this->NotSetBButton->UseVisualStyleBackColor = true;
 			// 
-			// listBox1
+			// ResList
 			// 
-			this->listBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+			this->ResList->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->listBox1->FormattingEnabled = true;
-			this->listBox1->Location = System::Drawing::Point(7, 6);
-			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(245, 342);
-			this->listBox1->TabIndex = 3;
+			this->ResList->FormattingEnabled = true;
+			this->ResList->Location = System::Drawing::Point(7, 6);
+			this->ResList->Name = L"ResList";
+			this->ResList->Size = System::Drawing::Size(245, 342);
+			this->ResList->TabIndex = 3;
 			// 
 			// panel4
 			// 
@@ -438,6 +441,7 @@ namespace ApplicationSet {
 			this->CleanBButton->TabIndex = 7;
 			this->CleanBButton->Text = L"Clean";
 			this->CleanBButton->UseVisualStyleBackColor = true;
+			this->CleanBButton->Click += gcnew System::EventHandler(this, &MyForm::CleanBButton_Click);
 			// 
 			// AddSetBButton
 			// 
@@ -505,6 +509,7 @@ namespace ApplicationSet {
 #pragma endregion
 private: void SynchSetAList() {
 	SetAList->Items->Clear();
+	if (A == nullptr) { return; }
 	for (int i = 0; i < A->GetMaxPower(); i++) {
 		if (A->IsMember(i) == 1) {
 			SetAList->Items->Add(i.ToString() + " ");
@@ -513,6 +518,7 @@ private: void SynchSetAList() {
 }
 private: void SynchSetBList() {
 	SetBList->Items->Clear();
+	if (B == nullptr) { return; }
 	for (int i = 0; i < B->GetMaxPower(); i++) {
 		if (B->IsMember(i) == 1) {
 			SetBList->Items->Add(i.ToString() + " ");
@@ -525,6 +531,7 @@ private: System::Void AddSetAButton_Click(System::Object^ sender, System::EventA
 	TSet set(0);
 	for each (String ^ temp in text)
 	{
+		if (temp == "") { break; }
 		int x = int::Parse(temp);
 		if (x + 1 > set.GetMaxPower()) {
 			TSet* tmp = new TSet(x + 1);
@@ -542,6 +549,7 @@ private: System::Void AddSetBButton_Click(System::Object^ sender, System::EventA
 	TSet set(0);
 	for each (String ^ temp in text)
 	{
+		if (temp == "") { break; }
 		int x = int::Parse(temp);
 		if (x + 1 > set.GetMaxPower()) {
 			TSet* tmp = new TSet(x + 1);
@@ -559,6 +567,7 @@ private: System::Void DelElementsAButton_Click(System::Object^ sender, System::E
 	TSet set(A->GetMaxPower());
 	for each (String ^ temp in text)
 	{
+		if (temp == "") { break; }
 		int x = int::Parse(temp);
 		if (x < set.GetMaxPower()) {
 			set.InsElem(x);
@@ -574,6 +583,7 @@ private: System::Void DelElementsBButton_Click(System::Object^ sender, System::E
 	TSet set(B->GetMaxPower());
 	for each (String ^ temp in text)
 	{
+		if (temp == "") { break; }
 		int x = int::Parse(temp);
 		if (x < set.GetMaxPower()) {
 			set.InsElem(x);
@@ -589,6 +599,41 @@ private: System::Void CleanAButton_Click(System::Object^ sender, System::EventAr
 		A = nullptr;
 		SynchSetAList();
 	}
+}
+private: System::Void CleanBButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (B != nullptr) {
+		delete B;
+		B = nullptr;
+		SynchSetBList();
+	}
+}
+private: System::Void UnionSetButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	ResList->Items->Clear();
+	if (A != nullptr && B != nullptr) {
+		TSet res(0);
+		res = *A + *B;
+		for (int i = 0; i < res.GetMaxPower(); i++) {
+			if (res.IsMember(i) == 1) {
+				ResList->Items->Add(i.ToString() + " ");
+			}
+		}
+	}
+	else{ ResList->Items->Add("One of the sets is not specified"); }
+	
+}
+
+private: System::Void NotSetAButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	ResList->Items->Clear();
+	if (A != nullptr) {
+		TSet res(0);
+		res = ~*A;
+		for (int i = 0; i < res.GetMaxPower(); i++) {
+			if (res.IsMember(i) == 1) {
+				ResList->Items->Add(i.ToString() + " ");
+			}
+		}
+	}
+	else { ResList->Items->Add("This set is not specified"); }
 }
 };
 }
